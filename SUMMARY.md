@@ -1,8 +1,10 @@
 # Table of contents
 
+* [Welcome](README.md)
+
 ## Resources
 
-* [API Authentication](README.md)
+* [API Authentication](<README (1).md>)
 * [API Key Management](resources/readme.md)
 * [Security Synopsis](resources/role-based-api-control.md)
 * [Sending Transactions](resources/sending-transactions.md)
