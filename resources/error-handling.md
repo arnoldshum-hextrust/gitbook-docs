@@ -2,7 +2,7 @@
 
 **400: Bad Request**\
 \
-This status code indicates that the server could not understand the request due to invalid syntax. This could be due to malformed JSON, missing parameters, or invalid values. It's a client-side error,  it indicates that the client needs to adjust the request before attempting to resend it.
+This status code indicates that the server could not understand the request due to invalid syntax. This could be due to malformed JSON, missing parameters, or invalid values. It's a client-side error, it indicates that the client needs to adjust the request before attempting to resend it.
 
 Example:
 
@@ -12,8 +12,6 @@ Example:
     "message": "The 'email' field is required."
 }
 ```
-
-
 
 **401: Unauthorized**
 
@@ -28,8 +26,6 @@ Example:
 }
 ```
 
-
-
 **403: Forbidden**
 
 Unlike 401, the request is valid, and the client is authenticated, but the client lacks the necessary permissions to access the resource. This can result from insufficient privileges or specific system rules.
@@ -42,8 +38,6 @@ Example:
     "message": "You do not have permission to delete this data."
 }
 ```
-
-
 
 **404: Not Found**
 
@@ -58,8 +52,6 @@ Example:
 }
 ```
 
-
-
 **405: Method Not Allowed**
 
 This status code indicates that the HTTP method used is not supported/compatible for the requested resource. For instance, trying to DELETE a read-only resource would result in a 405.
@@ -72,8 +64,6 @@ Example:
     "message": "HTTP method 'POST' not allowed. Only 'GET' is supported."
 }
 ```
-
-
 
 **409: Conflict**
 
@@ -88,8 +78,6 @@ Example:
 }
 ```
 
-
-
 **429: Too Many Requests**
 
 This status code is returned when the client has sent too many requests in a given amount of time ("rate limiting").
@@ -102,8 +90,6 @@ Example:
     "message": "Rate limit exceeded."
 }
 ```
-
-
 
 **500: Internal Server Error**
 
@@ -118,8 +104,6 @@ Example:
 }
 ```
 
-
-
 **502: Bad Gateway**
 
 This error response means that the server, while working as a gateway to get a response needed to handle the request, got an invalid response.
@@ -132,8 +116,6 @@ Example:
     "message": "Bad Gateway. The upstream server sent an invalid response."
 }
 ```
-
-
 
 **503: Service Unavailable**
 
@@ -148,9 +130,9 @@ Example:
 }
 ```
 
+**504: Gateway Timeout**&#x20;
 
-
-**504 Gateway Timeout**: This error response is given when the server is acting as a gateway and cannot get a response in time.
+This error response is given when the server is acting as a gateway and cannot get a response in time.
 
 Example:
 
@@ -160,5 +142,3 @@ Example:
     "message": "Gateway Timeout. The server, while acting as a gateway, did not receive a timely response from the upstream server it accessed in attempting to complete the request."
 }
 ```
-
-
