@@ -1,0 +1,1701 @@
+basePath: /v1
+definitions:
+  TxRequestGenericEventDataBcData:
+    properties:
+      raw:
+        description: Raw data
+      signedTx:
+        description: Signed transaction
+    type: object
+  TxRequestHandlerStatusDataBcData:
+    properties:
+      raw:
+        description: Raw data
+      signedTx:
+        description: Signed transaction
+    type: object
+  TxRequestHandlerStatusDataTxDataAmount:
+    properties:
+      assetKey:
+        description: Asset Key
+        type: string
+      assetTicker:
+        description: Asset Ticker
+        type: string
+      baseCurrency:
+        description: Base currency
+        type: string
+      fxRate:
+        description: Fx rate
+        type: string
+      nftId:
+        description: NFT Id
+        type: string
+      valueAtomic:
+        description: Value of the WEI amount
+        type: string
+      valueDecimal:
+        description: Value of the amount in decimal
+        type: string
+    type: object
+  TxRequestHandlerStatusDataTxDataFee:
+    properties:
+      assetKey:
+        description: Asset Key
+        type: string
+      assetTicker:
+        description: Asset Ticker
+        type: string
+      baseCurrency:
+        description: Base currency
+        type: string
+      fxRate:
+        description: Fx rate
+        type: string
+      valueAtomic:
+        description: Value of the WEI amount
+        type: string
+      valueDecimal:
+        description: Value of the amount in decimal
+        type: string
+    type: object
+  ? TransactionTokenEventDataFee
+  : properties:
+      amount:
+        description: Fee in dec
+        type: string
+      assetKey:
+        type: string
+      assetTicker:
+        type: string
+      payer:
+        description: Gas fee Payer
+        type: string
+    type: object
+  ? TransactionTokenEventDataNft
+  : properties:
+      assetKey:
+        type: string
+      assetSymbol:
+        type: string
+      decimal:
+        description: Decimal using in an nft
+        type: number
+      nftStandard:
+        type: string
+      tokenTransferred:
+        description: tokenTransferred
+        type: string
+      tokenUri:
+        type: string
+      uniqueIdOnChain:
+        type: string
+      uniqueIdOnChainType:
+        type: string
+    type: object
+  ? TransactionTokenEventDataToken
+  : properties:
+      assetKey:
+        type: string
+      assetSymbol:
+        type: string
+      decimal:
+        description: Decimal using in a token
+        type: number
+      tokenTransferred:
+        description: tokenTransferred
+        type: string
+      uniqueIdOnChain:
+        type: string
+      uniqueIdOnChainType:
+        type: string
+    type: object
+  ? TransactionEventDataFee
+  : properties:
+      assetKey:
+        type: string
+      assetTicker:
+        type: string
+      fee:
+        description: fee string
+        type: string
+      gas:
+        type: string
+      payer:
+        description: fee payer
+        type: string
+      value:
+        type: string
+    type: object
+  AssetValue:
+    properties:
+      assetKey:
+        type: string
+      updatedAt:
+        description: Asset price update time
+        type: string
+      value:
+        $ref: '#/definitions/AssetValueValue'
+    type: object
+  AssetValueValue:
+    properties:
+      baseCurrency:
+        description: base Currency
+        type: string
+      fxRate:
+        type: string
+      valueDecimal:
+        description: value in decimals
+        type: string
+    type: object
+  TranasctionEventDataGas:
+    properties:
+      assetKey:
+        type: string
+      assetTicker:
+        type: string
+      fee:
+        description: Gas fee in hex
+        type: string
+      payer:
+        description: Gas fee Payer
+        type: string
+    type: object
+  ? TransactionTokenEventDataErc20
+  : properties:
+      assetKey:
+        type: string
+      assetSymbol:
+        type: string
+      assetValue:
+        $ref: '#/definitions/AssetValue'
+      contractAddress:
+        description: Contract Address
+        type: string
+      decimal:
+        description: Decimal using in a token
+        type: number
+      tokenTransferred:
+        description: tokenTransferred
+        type: string
+    type: object
+  ? TransactionTokenEventDataErc721
+  : properties:
+      assetKey:
+        type: string
+      assetSymbol:
+        type: string
+      contractAddress:
+        description: Contract Address
+        type: string
+      owner:
+        description: Owner of the nft
+        type: string
+      tokenID:
+        description: Token ID
+        type: string
+      tokenURI:
+        description: Token URI
+        type: string
+    type: object
+  ? TransactionTokenEventDataErc1155
+  : properties:
+      assetKey:
+        type: string
+      assetSymbol:
+        type: string
+      contractAddress:
+        description: Contract Address
+        type: string
+      data:
+        description: Data
+        type: string
+      tokenID:
+        description: Token ID
+        type: string
+      tokenTransferred:
+        description: tokenTransferred
+        type: string
+      uri:
+        description: Token URI
+        type: string
+    type: object
+  Error:
+    properties:
+      code:
+        type: integer
+      message: {}
+    type: object
+  Asset:
+    properties:
+      available:
+        description: Funds available for transfer. Equals the blockchain balance minus
+          any locked amounts
+        example: "70"
+        type: string
+        x-order: "3"
+      frozen:
+        description: The cumulative frozen balance
+        example: "40"
+        type: string
+        x-order: "5"
+      id:
+        description: Asset key of the balance
+        example: 1_USDC_0xA0b86991
+        type: string
+        x-order: "1"
+      lockedAmount:
+        description: Funds in outgoing transactions that are not yet published to
+          the network
+        example: "30"
+        type: string
+        x-order: "6"
+      pending:
+        description: The cumulative balance of all transactions pending to be cleared
+        example: "0"
+        type: string
+        x-order: "4"
+      total:
+        description: The total wallet balance. It is the balance as it appears on
+          the blockchain.
+        example: "140"
+        type: string
+        x-order: "2"
+    type: object
+  AssetAddress:
+    properties:
+      address:
+        description: Address for the deposit
+        example: "0x0000000000000000000000000000000000000000"
+        type: string
+        x-order: "2"
+      assetKey:
+        description: Key of the asset
+        example: 1_USDC_0xA0b86991
+        type: string
+        x-order: "1"
+    type: object
+  CancelTransactionRes:
+    properties:
+      success:
+        type: boolean
+    type: object
+  ChainSpecific:
+    type: object
+  CreateTransactionReq:
+    properties:
+      action:
+        type: string
+        x-order: "3"
+      amount:
+        allOf:
+        - $ref: '#/definitions/TxValue'
+        x-order: "8"
+      chainId:
+        type: string
+        x-order: "4"
+      chainSpecific:
+        allOf:
+        - $ref: '#/definitions/ChainSpecific'
+        x-order: "9"
+      enterpriseId:
+        type: string
+        x-order: "1"
+      from:
+        type: string
+        x-order: "6"
+      note:
+        type: string
+        x-order: "5"
+      safeAccountId:
+        type: string
+        x-order: "2"
+      to:
+        type: string
+        x-order: "7"
+    type: object
+  CreateTransactionRes:
+    properties:
+      trace_id:
+        type: string
+    type: object
+  Enterprise:
+    properties:
+      baseCurrency:
+        description: Base currency that the enterprise will use for various operations
+        example: USD
+        type: string
+        x-order: "5"
+      createdAt:
+        description: Created time in RFC3339 format "2023-05-04T08:36:02.187254Z"
+        example: "2023-05-04T08:36:02.187254Z"
+        type: string
+        x-order: "6"
+      displayName:
+        description: Display name of the enterprise
+        example: Hextrust
+        type: string
+        x-order: "2"
+      entityStatus:
+        description: |-
+          Entity status
+
+          <ul>
+          <li><code>active</code> enterprise is active</li>
+          <li><code>pending</code> enterprise is pending in approval process</li>
+          <li><code>suspended</code> enterprise has been suspended, please contact custom support for details</li>
+          </ul>
+        example: active
+        type: string
+        x-order: "4"
+      id:
+        description: ID of the enterprise
+        example: 58583205-1f12-4b58-92f5-1cc18aa86042
+        type: string
+        x-order: "1"
+      legalName:
+        description: Legal name of the enterprise
+        example: Hextrust Limited
+        type: string
+        x-order: "3"
+      updatedAt:
+        description: Last updated time is in RFC3339 format "2023-05-04T08:36:02.187254Z"
+        example: "2023-05-04T08:36:02.187254Z"
+        type: string
+        x-order: "7"
+    type: object
+  EstimateGasFeeTransactionReq:
+    properties:
+      action:
+        type: string
+        x-order: "5"
+      amount:
+        allOf:
+        - $ref: '#/definitions/TxValue'
+        x-order: "10"
+      chainId:
+        type: string
+        x-order: "6"
+      enterpriseId:
+        type: string
+        x-order: "1"
+      from:
+        type: string
+        x-order: "8"
+      note:
+        type: string
+        x-order: "7"
+      safeAccountId:
+        type: string
+        x-order: "2"
+      source:
+        type: string
+        x-order: "4"
+      to:
+        type: string
+        x-order: "9"
+      walletType:
+        type: string
+        x-order: "3"
+    type: object
+  EstimateGasFeeTransactionRes:
+    properties:
+      high:
+        allOf:
+        - $ref: '#/definitions/GasFeeEstimation'
+        x-order: "3"
+      low:
+        allOf:
+        - $ref: '#/definitions/GasFeeEstimation'
+        x-order: "1"
+      medium:
+        allOf:
+        - $ref: '#/definitions/GasFeeEstimation'
+        x-order: "2"
+    type: object
+  FlowEventInfo:
+    properties:
+      fee:
+        $ref: '#/definitions/FlowTransactionTokenEventDataFee'
+      nft:
+        $ref: '#/definitions/FlowTransactionTokenEventDataNft'
+      token:
+        $ref: '#/definitions/FlowTransactionTokenEventDataToken'
+    type: object
+  FlowTransactionTokenEventDataFee:
+    properties:
+      amount:
+        description: Fee in dec
+        type: string
+      assetKey:
+        type: string
+      assetTicker:
+        type: string
+      payer:
+        description: Gas fee Payer
+        type: string
+    type: object
+  FlowTransactionTokenEventDataNft:
+    properties:
+      assetKey:
+        type: string
+      assetSymbol:
+        type: string
+      data:
+        type: string
+      decimal:
+        description: Decimal using in an nft
+        type: number
+      description:
+        type: string
+      name:
+        type: string
+      nftId:
+        description: nft id
+        type: string
+      nftStandard:
+        type: string
+      tokenTransferred:
+        description: tokenTransferred
+        type: string
+      tokenUri:
+        type: string
+      uniqueIdOnChain:
+        type: string
+      uniqueIdOnChainType:
+        type: string
+    type: object
+  FlowTransactionTokenEventDataToken:
+    properties:
+      assetKey:
+        type: string
+      assetSymbol:
+        type: string
+      decimal:
+        description: Decimal using in a token
+        type: number
+      tokenTransferred:
+        description: tokenTransferred
+        type: string
+      uniqueIdOnChain:
+        type: string
+      uniqueIdOnChainType:
+        type: string
+    type: object
+  GasFeeEstimation:
+    properties:
+      gasLimit:
+        type: string
+        x-order: "2"
+      gasPrice:
+        type: string
+        x-order: "1"
+      networkFee:
+        type: string
+        x-order: "3"
+      priorityFee:
+        type: string
+        x-order: "4"
+    type: object
+  GetAggregatedAssetListRes:
+    properties:
+      assetList:
+        description: Aggregated asset balance list
+        items:
+          $ref: '#/definitions/Asset'
+        type: array
+        x-order: "1"
+      nextUrl:
+        description: Link to the next page
+        type: string
+        x-order: "105"
+      paging:
+        allOf:
+        - $ref: '#/definitions/PaginationReq'
+        description: Current page request
+        x-order: "100"
+      previousUrl:
+        description: Link to the previous page
+        type: string
+        x-order: "104"
+    type: object
+  GetAggregatedAssetRes:
+    properties:
+      available:
+        description: Funds available for transfer. Equals the blockchain balance minus
+          any locked amounts
+        example: "70"
+        type: string
+        x-order: "3"
+      frozen:
+        description: The cumulative frozen balance
+        example: "40"
+        type: string
+        x-order: "5"
+      id:
+        description: Asset key of the balance
+        example: 1_USDC_0xA0b86991
+        type: string
+        x-order: "1"
+      lockedAmount:
+        description: Funds in outgoing transactions that are not yet published to
+          the network
+        example: "30"
+        type: string
+        x-order: "6"
+      pending:
+        description: The cumulative balance of all transactions pending to be cleared
+        example: "0"
+        type: string
+        x-order: "4"
+      total:
+        description: The total wallet balance. It is the balance as it appears on
+          the blockchain.
+        example: "140"
+        type: string
+        x-order: "2"
+    type: object
+  GetEnterpriseListRes:
+    properties:
+      enterpriseList:
+        items:
+          $ref: '#/definitions/Enterprise'
+        type: array
+    type: object
+  GetSafeAccountAssetRes:
+    properties:
+      available:
+        description: Funds available for transfer. Equals the blockchain balance minus
+          any locked amounts
+        example: "70"
+        type: string
+        x-order: "3"
+      frozen:
+        description: The cumulative frozen balance
+        example: "40"
+        type: string
+        x-order: "5"
+      id:
+        description: Asset key of the balance
+        example: 1_USDC_0xA0b86991
+        type: string
+        x-order: "1"
+      lockedAmount:
+        description: Funds in outgoing transactions that are not yet published to
+          the network
+        example: "30"
+        type: string
+        x-order: "6"
+      pending:
+        description: The cumulative balance of all transactions pending to be cleared
+        example: "0"
+        type: string
+        x-order: "4"
+      total:
+        description: The total wallet balance. It is the balance as it appears on
+          the blockchain.
+        example: "140"
+        type: string
+        x-order: "2"
+    type: object
+  GetSafeAccountListRes:
+    properties:
+      nextUrl:
+        description: Link to the next page
+        type: string
+        x-order: "105"
+      paging:
+        allOf:
+        - $ref: '#/definitions/PaginationReq'
+        description: Current page request
+        x-order: "100"
+      previousUrl:
+        description: Link to the previous page
+        type: string
+        x-order: "104"
+      safeAccountList:
+        description: Safe account list
+        items:
+          $ref: '#/definitions/SafeAccount'
+        type: array
+        x-order: "1"
+    type: object
+  GetSafeAccountRes:
+    properties:
+      assetList:
+        description: Asset list of the safe account
+        items:
+          $ref: '#/definitions/Asset'
+        type: array
+        x-order: "3"
+      id:
+        description: ID of the safe account
+        example: 89529016-a802-4f1e-b464-4618d40b433e
+        type: string
+        x-order: "1"
+      name:
+        description: Name of the safe account
+        example: Trading
+        type: string
+        x-order: "2"
+    type: object
+  GetSupportedAssetListRes:
+    properties:
+      supportedAssetList:
+        items:
+          $ref: '#/definitions/SupportedAsset'
+        type: array
+    type: object
+  GetTransactionByExternalTxIdRes:
+    properties:
+      actionAddress:
+        type: string
+      amountDecimal:
+        type: string
+      amountHex:
+        type: string
+      assetKey:
+        type: string
+      baseCcy:
+        type: string
+      blindSigned:
+        type: boolean
+      blockTimestamp:
+        type: string
+      chainId:
+        type: string
+      confirmationCount:
+        type: integer
+      contractAddress:
+        type: string
+      contractFunctionName:
+        type: string
+      contractInteraction:
+        type: boolean
+      createdAt:
+        type: string
+      decimal:
+        type: number
+      erc20:
+        $ref: '#/definitions/TransactionTokenEventDataErc20'
+      erc721:
+        $ref: '#/definitions/TransactionTokenEventDataErc721'
+      erc1155:
+        $ref: '#/definitions/TransactionTokenEventDataErc1155'
+      fee:
+        $ref: '#/definitions/TransactionTokenEventDataFee'
+      feeCelestia:
+        items:
+          $ref: '#/definitions/TransactionEventDataFee'
+        type: array
+      feeXrpl:
+        $ref: '#/definitions/XrplTransactionEventDataFee'
+      fiatCurrency:
+        type: string
+      fiatValueDecimal:
+        type: string
+      flow:
+        $ref: '#/definitions/FlowEventInfo'
+      from:
+        type: string
+      fxRate:
+        type: string
+      gas:
+        $ref: '#/definitions/TranasctionEventDataGas'
+      genericTxRawData:
+        $ref: '#/definitions/TxRequestGenericEventDataBcData'
+      hash:
+        type: string
+      id:
+        type: string
+      internalStatus:
+        type: string
+      memo:
+        type: string
+      nft:
+        $ref: '#/definitions/TransactionTokenEventDataNft'
+      nonce:
+        type: number
+      offChainAmount:
+        $ref: '#/definitions/TxRequestHandlerStatusDataTxDataAmount'
+      offChainFee:
+        $ref: '#/definitions/TxRequestHandlerStatusDataTxDataFee'
+      primaryTransactionStatus:
+        type: string
+      rawTxData:
+        $ref: '#/definitions/TxRequestHandlerStatusDataBcData'
+      reason:
+        type: string
+      safeAccountId:
+        type: string
+      secondaryTransactionStatus:
+        type: string
+      source:
+        type: string
+      spec:
+        type: string
+      tag:
+        type: string
+      to:
+        type: string
+      token:
+        $ref: '#/definitions/TransactionTokenEventDataToken'
+      tokenXrpl:
+        $ref: '#/definitions/XrplTransactionTokenEventDataToken'
+      transactionType:
+        type: string
+      uniqueIdOnChain:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  GetTransactionByTraceIdRes:
+    properties:
+      actionAddress:
+        type: string
+      amountDecimal:
+        type: string
+      amountHex:
+        type: string
+      assetKey:
+        type: string
+      baseCcy:
+        type: string
+      blindSigned:
+        type: boolean
+      blockTimestamp:
+        type: string
+      chainId:
+        type: string
+      confirmationCount:
+        type: integer
+      contractAddress:
+        type: string
+      contractFunctionName:
+        type: string
+      contractInteraction:
+        type: boolean
+      createdAt:
+        type: string
+      decimal:
+        type: number
+      erc20:
+        $ref: '#/definitions/TransactionTokenEventDataErc20'
+      erc721:
+        $ref: '#/definitions/TransactionTokenEventDataErc721'
+      erc1155:
+        $ref: '#/definitions/TransactionTokenEventDataErc1155'
+      fee:
+        $ref: '#/definitions/TransactionTokenEventDataFee'
+      feeCelestia:
+        items:
+          $ref: '#/definitions/TransactionEventDataFee'
+        type: array
+      feeXrpl:
+        $ref: '#/definitions/XrplTransactionEventDataFee'
+      fiatCurrency:
+        type: string
+      fiatValueDecimal:
+        type: string
+      flow:
+        $ref: '#/definitions/FlowEventInfo'
+      from:
+        type: string
+      fxRate:
+        type: string
+      gas:
+        $ref: '#/definitions/TranasctionEventDataGas'
+      genericTxRawData:
+        $ref: '#/definitions/TxRequestGenericEventDataBcData'
+      hash:
+        type: string
+      id:
+        type: string
+      internalStatus:
+        type: string
+      memo:
+        type: string
+      nft:
+        $ref: '#/definitions/TransactionTokenEventDataNft'
+      nonce:
+        type: number
+      offChainAmount:
+        $ref: '#/definitions/TxRequestHandlerStatusDataTxDataAmount'
+      offChainFee:
+        $ref: '#/definitions/TxRequestHandlerStatusDataTxDataFee'
+      primaryTransactionStatus:
+        type: string
+      rawTxData:
+        $ref: '#/definitions/TxRequestHandlerStatusDataBcData'
+      reason:
+        type: string
+      safeAccountId:
+        type: string
+      secondaryTransactionStatus:
+        type: string
+      source:
+        type: string
+      spec:
+        type: string
+      tag:
+        type: string
+      to:
+        type: string
+      token:
+        $ref: '#/definitions/TransactionTokenEventDataToken'
+      tokenXrpl:
+        $ref: '#/definitions/XrplTransactionTokenEventDataToken'
+      transactionType:
+        type: string
+      uniqueIdOnChain:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  GetTransactionListRes:
+    properties:
+      nextUrl:
+        description: Link to the next page
+        type: string
+        x-order: "105"
+      paging:
+        allOf:
+        - $ref: '#/definitions/TransactionPaginationReq'
+        description: Current page request
+        x-order: "100"
+      previousUrl:
+        description: Link to the previous page
+        type: string
+        x-order: "104"
+      transactionList:
+        items:
+          $ref: '#/definitions/Transaction'
+        type: array
+    type: object
+  PaginationReq:
+    properties:
+      after:
+        description: Fetch after this resource ID
+        example: 89529016-a802-4f1e-b464-4618d40b433e
+        type: string
+        x-order: "102"
+      before:
+        description: Fetch before this resource ID
+        example: 89529016-a802-4f1e-b464-4618d40b433e
+        type: string
+        x-order: "101"
+    type: object
+  SafeAccount:
+    properties:
+      assetList:
+        description: Asset list of the safe account
+        items:
+          $ref: '#/definitions/Asset'
+        type: array
+        x-order: "3"
+      id:
+        description: ID of the safe account
+        example: 89529016-a802-4f1e-b464-4618d40b433e
+        type: string
+        x-order: "1"
+      name:
+        description: Name of the safe account
+        example: Trading
+        type: string
+        x-order: "2"
+    type: object
+  SupportedAsset:
+    properties:
+      assetKey:
+        type: string
+      chainID:
+        type: string
+      chainName:
+        type: string
+      contractAddress:
+        type: string
+      decimal:
+        type: integer
+      denom:
+        type: string
+      gasLimit:
+        type: string
+      minBlockConfirmation:
+        type: integer
+      native:
+        type: boolean
+      networkAssetId:
+        type: string
+      standard:
+        type: string
+      storagePath:
+        type: string
+      ticker:
+        type: string
+      transactionType:
+        description: |-
+          TransactionType
+          for example "2" for evm EIP-1559
+          for example "0" for evm legacy transaction
+        type: string
+      type:
+        type: string
+    type: object
+  Transaction:
+    properties:
+      actionAddress:
+        type: string
+      amountDecimal:
+        type: string
+      amountHex:
+        type: string
+      assetKey:
+        type: string
+      baseCcy:
+        type: string
+      blindSigned:
+        type: boolean
+      blockTimestamp:
+        type: string
+      chainId:
+        type: string
+      confirmationCount:
+        type: integer
+      contractAddress:
+        type: string
+      contractFunctionName:
+        type: string
+      contractInteraction:
+        type: boolean
+      createdAt:
+        type: string
+      decimal:
+        type: number
+      erc20:
+        $ref: '#/definitions/TransactionTokenEventDataErc20'
+      erc721:
+        $ref: '#/definitions/TransactionTokenEventDataErc721'
+      erc1155:
+        $ref: '#/definitions/TransactionTokenEventDataErc1155'
+      fee:
+        $ref: '#/definitions/TransactionTokenEventDataFee'
+      feeCelestia:
+        items:
+          $ref: '#/definitions/TransactionEventDataFee'
+        type: array
+      feeXrpl:
+        $ref: '#/definitions/XrplTransactionEventDataFee'
+      fiatCurrency:
+        type: string
+      fiatValueDecimal:
+        type: string
+      flow:
+        $ref: '#/definitions/FlowEventInfo'
+      from:
+        type: string
+      fxRate:
+        type: string
+      gas:
+        $ref: '#/definitions/TranasctionEventDataGas'
+      genericTxRawData:
+        $ref: '#/definitions/TxRequestGenericEventDataBcData'
+      hash:
+        type: string
+      id:
+        type: string
+      internalStatus:
+        type: string
+      memo:
+        type: string
+      nft:
+        $ref: '#/definitions/TransactionTokenEventDataNft'
+      nonce:
+        type: number
+      offChainAmount:
+        $ref: '#/definitions/TxRequestHandlerStatusDataTxDataAmount'
+      offChainFee:
+        $ref: '#/definitions/TxRequestHandlerStatusDataTxDataFee'
+      primaryTransactionStatus:
+        type: string
+      rawTxData:
+        $ref: '#/definitions/TxRequestHandlerStatusDataBcData'
+      reason:
+        type: string
+      safeAccountId:
+        type: string
+      secondaryTransactionStatus:
+        type: string
+      source:
+        type: string
+      spec:
+        type: string
+      tag:
+        type: string
+      to:
+        type: string
+      token:
+        $ref: '#/definitions/TransactionTokenEventDataToken'
+      tokenXrpl:
+        $ref: '#/definitions/XrplTransactionTokenEventDataToken'
+      transactionType:
+        type: string
+      uniqueIdOnChain:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  TransactionPaginationReq:
+    properties:
+      after:
+        description: Fetch after this timestamp
+        example: 89529016-a802-4f1e-b464-4618d40b433e
+        type: string
+        x-order: "102"
+      before:
+        description: Fetch before this timestamp
+        example: 89529016-a802-4f1e-b464-4618d40b433e
+        type: string
+        x-order: "101"
+    type: object
+  TxValue:
+    properties:
+      assetKey:
+        type: string
+        x-order: "1"
+      nftId:
+        type: string
+        x-order: "2"
+      valueAtomic:
+        type: string
+        x-order: "3"
+    type: object
+  ValidatePostReq:
+    properties:
+      boolean:
+        type: boolean
+      char:
+        maxLength: 1
+        type: string
+      int64:
+        type: integer
+      string:
+        maxLength: 16
+        minLength: 5
+        type: string
+    type: object
+  ValidateRes:
+    properties:
+      message:
+        type: string
+    type: object
+  XrplTransactionEventDataFee:
+    properties:
+      amount:
+        description: fee in atomic decimals
+        type: string
+      assetKey:
+        type: string
+      assetTicker:
+        type: string
+      payer:
+        description: fee payer
+        type: string
+    type: object
+  XrplTransactionTokenEventDataToken:
+    properties:
+      amountAtomic:
+        description: amount transferred in atomic units
+        type: string
+      assetKey:
+        type: string
+      assetSymbol:
+        type: string
+      decimals:
+        description: decimals of the token, it is always 81
+        type: number
+      issuer:
+        description: issuer of the token
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: developer@hextech.io
+    name: REST API developer
+  title: Hexsafe v2 REST API
+  version: "1.0"
+paths:
+  /assets:
+    get:
+      description: Gets the assets balance summary for all accounts or filtered accounts.
+      parameters:
+      - description: Account name prefix
+        in: query
+        name: accountNamePrefix
+        type: string
+      - description: Account name suffix
+        in: query
+        name: accountNameSuffix
+        type: string
+      - description: Fetch before this resource ID
+        in: query
+        name: before
+        type: string
+      - description: Fetch after this resource ID
+        in: query
+        name: after
+        type: string
+      - default: 200
+        description: 'Max number of asset in one response: default 200, max 500.'
+        in: query
+        maximum: 500
+        minimum: 1
+        name: limit
+        type: integer
+      - description: Order by field
+        in: query
+        name: orderBy
+        type: string
+      - default: DESC
+        description: 'Sort direction ascending (ASC) or descending (DESC), default:
+          DESC'
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sort
+        type: string
+      - description: Enterprise ID
+        in: query
+        name: enterpriseId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Aggregated asset balance list
+          schema:
+            $ref: '#/definitions/GetAggregatedAssetListRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get aggregated asset balance for chosen accounts
+      tags:
+      - safeAccount
+  /assets/{assetKey}:
+    get:
+      description: Gets the asset balance summary for an asset.
+      parameters:
+      - description: Enterprise ID
+        in: query
+        name: enterpriseId
+        type: string
+      - description: Asset Key
+        in: path
+        name: assetKey
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Aggregated asset balance
+          schema:
+            $ref: '#/definitions/GetAggregatedAssetRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get enterprise balance by asset
+      tags:
+      - safeAccount
+  /enterprises:
+    get:
+      description: Get a list of enterprises accessible by the api user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Enterprise list
+          schema:
+            $ref: '#/definitions/GetEnterpriseListRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get list of enterprises
+      tags:
+      - enterprise
+  /safe_accounts:
+    get:
+      description: Gets all safe accounts in an enterprise. This endpoint returns
+        a paginated result.
+      parameters:
+      - description: Enterprise ID
+        in: query
+        name: enterpriseId
+        type: string
+      - description: Fetch before this resource ID
+        in: query
+        name: before
+        type: string
+      - description: Fetch after this resource ID
+        in: query
+        name: after
+        type: string
+      - default: 200
+        description: 'Max number of safe account in one response: default 200, max
+          500.'
+        in: query
+        maximum: 500
+        minimum: 1
+        name: limit
+        type: integer
+      - description: Order by field
+        in: query
+        name: orderBy
+        type: string
+      - default: DESC
+        description: 'Sort direction ascending (ASC) or descending (DESC), default:
+          DESC'
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Safe account list
+          schema:
+            $ref: '#/definitions/GetSafeAccountListRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get list of safe accounts
+      tags:
+      - safeAccount
+  /safe_accounts/{safeAccountId}:
+    get:
+      description: Returns the requested safe account.
+      parameters:
+      - description: Enterprise ID
+        in: query
+        name: enterpriseId
+        type: string
+      - description: Safe account ID
+        in: path
+        name: safeAccountId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Safe account details
+          schema:
+            $ref: '#/definitions/GetSafeAccountRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get a safe account by ID
+      tags:
+      - safeAccount
+  /safe_accounts/{safeAccountId}/{assetKey}:
+    get:
+      description: Returns the wallet balance for a specific asset of a safe account.
+      parameters:
+      - description: Enterprise ID
+        in: query
+        name: enterpriseId
+        type: string
+      - description: Safe account ID
+        in: path
+        name: safeAccountId
+        required: true
+        type: string
+      - description: Asset Key
+        in: path
+        name: assetKey
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Asset balance
+          schema:
+            $ref: '#/definitions/GetSafeAccountAssetRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get the asset balance for a safe account
+      tags:
+      - safeAccount
+  /safe_accounts/{safeAccountId}/{assetKey}/addresses:
+    get:
+      description: Returns the wallet addresses for a specific asset of a safe account.
+      parameters:
+      - description: Enterprise ID
+        in: query
+        name: enterpriseId
+        type: string
+      - description: Safe account ID
+        in: path
+        name: safeAccountId
+        required: true
+        type: string
+      - description: Asset Key
+        in: path
+        name: assetKey
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Asset addresses
+          schema:
+            items:
+              $ref: '#/definitions/AssetAddress'
+            type: array
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get asset addresses
+      tags:
+      - safeAccount
+  /supported_assets:
+    get:
+      description: Returns all asset types supported by Hex Safe for the given Enterprise.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Supported asset list
+          schema:
+            $ref: '#/definitions/GetSupportedAssetListRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get list of all asset types supported by Hex Safe
+      tags:
+      - blockchain
+  /transactions:
+    get:
+      description: Lists the transaction history for your Enterprise.
+      parameters:
+      - description: Fetch before this timestamp
+        in: query
+        name: before
+        type: string
+      - description: Fetch after this timestamp
+        in: query
+        name: after
+        type: string
+      - default: 200
+        description: 'Max number of transaction in one response: default 200, max
+          500.'
+        in: query
+        maximum: 500
+        minimum: 1
+        name: limit
+        type: integer
+      - description: Order by field
+        in: query
+        name: orderBy
+        type: string
+      - default: DESC
+        description: 'Sort direction ascending (ASC) or descending (DESC), default:
+          DESC'
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sort
+        type: string
+      - description: Enterprise ID
+        in: query
+        name: enterpriseId
+        type: string
+      - description: Safe account ID
+        in: query
+        name: safeAccountId
+        type: string
+      - description: Status
+        in: query
+        name: status
+        type: string
+      - description: Transaction hash
+        in: query
+        name: txHash
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Transaction list
+          schema:
+            $ref: '#/definitions/GetTransactionListRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get list of transaction history
+      tags:
+      - transaction
+    post:
+      description: Creates a new transaction.
+      parameters:
+      - description: Create transaction request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateTransactionReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Create transaction response
+          schema:
+            $ref: '#/definitions/CreateTransactionRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Create a new transaction
+      tags:
+      - transaction
+  /transactions/{traceId}:
+    get:
+      description: Returns a transaction by trace id
+      parameters:
+      - description: Trace ID
+        in: path
+        name: traceId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Transaction response
+          schema:
+            $ref: '#/definitions/GetTransactionByTraceIdRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Find a specific transaction by Hex Safe trace ID
+      tags:
+      - transaction
+  /transactions/{traceId}/cancel:
+    post:
+      description: Cancels a transaction request by ID.
+      parameters:
+      - description: Trace ID
+        in: path
+        name: traceId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cancel transaction response
+          schema:
+            $ref: '#/definitions/CancelTransactionRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Cancel a transaction request (before broadcast)
+      tags:
+      - transaction
+  /transactions/estimate_gas_fee:
+    post:
+      description: Estimates the transaction fee for a transaction request.
+      parameters:
+      - description: Estimate gas fee this transaction
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/EstimateGasFeeTransactionReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Estimated gas fee for this transaction
+          schema:
+            $ref: '#/definitions/EstimateGasFeeTransactionRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Estimate transaction fee
+      tags:
+      - transaction
+  /transactions/external_tx_id/{externalTxId}:
+    get:
+      description: Returns transaction by txid
+      parameters:
+      - description: External transaction ID
+        in: path
+        name: externalTxId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Transaction response
+          schema:
+            $ref: '#/definitions/GetTransactionByExternalTxIdRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Find a specific transaction by transaction hash
+      tags:
+      - transaction
+  /validate:
+    get:
+      description: Validate your API call to hexsafe is implemented correctly.
+      parameters:
+      - description: min=5,max=16
+        in: query
+        maxLength: 16
+        minLength: 5
+        name: string
+        type: string
+      - description: max=1
+        in: query
+        maxLength: 1
+        name: char
+        type: string
+      - description: true/false
+        in: query
+        name: boolean
+        type: boolean
+      - description: int64
+        in: query
+        name: int64
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response
+          schema:
+            $ref: '#/definitions/ValidateRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Validate
+      tags:
+      - misc
+    post:
+      description: Validate your API call to hexsafe is implemented correctly.
+      parameters:
+      - description: Request Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ValidatePostReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response
+          schema:
+            $ref: '#/definitions/ValidateRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Validate
+      tags:
+      - misc
+securityDefinitions:
+  APIKey:
+    description: API key that is generated via hexsafe frontend.
+    in: header
+    name: X-API-KEY
+    type: apiKey
+  Bearer:
+    description: Bearer token
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
+tags:
+- description: Enterprise API
+  name: enterprise
+- description: Safe Account API
+  name: safeAccount
+- description: Transaction API
+  name: transaction
+- description: Blockchains and Assets API
+  name: blockchain
+- description: misc API
+  name: misc
