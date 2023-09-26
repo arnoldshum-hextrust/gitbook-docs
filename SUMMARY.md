@@ -9,3 +9,4 @@
   * [Working with Rate Limits](resources/rate-limits/working-with-rate-limits.md)
 * [Error Handling](resources/error-handling.md)
 * [Safe Accounts](resources/safe-accounts.md)
+* [API Key](resources/api-key.md)
