@@ -17,9 +17,4 @@ API rate limits are assigned per user. If you regularly encounter HTTP 429 respo
 
 **Incorporate Caching** - Most all elements do not require constant verification with each transaction. Consider implementing caching for data points that require only periodic updates.
 
-\
-\
 
-
-\
-\

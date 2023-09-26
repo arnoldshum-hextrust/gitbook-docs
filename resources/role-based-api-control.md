@@ -23,5 +23,4 @@ For enhanced security management, it is advisable to maintain two distinct API u
 #### Data Encryption
 
 Hexsafe encrypts all sensitive data, such as API keys. This offers high-level security, ensuring that even if data falls into unauthorized hands, it remains indecipherable. Additionally, always ensure that data transmission over networks occurs over secure, encrypted channels to prevent potential data interception.\
-\
-\
+

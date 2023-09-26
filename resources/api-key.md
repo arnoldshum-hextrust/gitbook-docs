@@ -1,55 +1,70 @@
 # Prerequisite
-Need an account for `https://hexsafe.hextech.io` with permission to create API keys
 
-(reference to Sign Up for hexsafe)
+Before you begin, you need an account for `https://hexsafe.hextech.io` with permissions to create API keys. 
+If you don't have an account, please sign up for Hexsafe.
+
 
 # 1.0 How to access hexsafe REST APIs
 Two headers are required for accessing most of the APIs
-- API key in the http header "x-api-key"
-- Bearer Token in the "authorization" header
+- An API key in the "x-api-key" HTTP header
+- A Bearer Token in the "authorization" header
 
 
 # 1.1 What are API Keys and how to authenticate
-API key is the identity of a register user for using Hexsafe REST APIs
+An API key is a unique identifier associated with a registered user that allows them to use Hexsafe REST APIs.
 
 
 Every API Key is bound to a pair of RSA Public/Private Keys.
-- Private key is stored at the client side. It is used for signing JWTs that will be used as the bearer token for authentication
-- Public key is provided by the user when generating the API Key. It is also stored in hexsafe server side for verifying the bearer token
+- The Private Key is stored on the client side. It is used to sign JWTs (JSON Web Tokens), which are then used as the bearer token for authentication.
+- The Public Key is provided by the user when generating the API Key. It is stored on the Hexsafe server side and used to verify the bearer token.
 
 
 
 # 1.2 How to generate API Key
-- Before generating API key, user needs to create a pair of RSA Public/Private Key, then use them to create a certificate signing request (.csr) file
+- Before you can generate an API key, you need to create a pair of RSA Public/Private Keys. You then use these keys to create a Certificate Signing Request (CSR) file.
 
-## How to create RSA key pair with OpenSSL
+## Creating an RSA Key Pair with OpenSSL
 ```bash
-# generate private key
+# Generate the private key
 openssl genrsa -out my_rsa.pem 4096
-# generate public private key
+
+# Generate the public key
 openssl rsa -in my_rsa.pem -pubout -out my_rsa_pubkey.pem
 
-# generate csr
+# Generate CSR
 openssl req -key ./my_rsa.pem -subj "/C=HK/O=Hextrust/CN=testing.hextrust.com/emailAddress=testingapiclient@hextrust.com" -new -out my_rsa.csr
 ```
 
-## How to upload the .csr file and get the API key
-- Login to `https://hexsafe.hextech.io`
-- Click the drop down at the top right corner next to the user name
-- Go to Settings
-![alt text](../.gitbook/assets/gen-api-key-1.png)
-- Go to API Key and press "Create API Key"
-![alt text](../.gitbook/assets/gen-api-key-2.png)
-- Name your API key
-- Copy and paste the content from "my_rsa.csr" to the text box
-- Set the expiry date and press "Get API Key"
-![alt text](../.gitbook/assets/gen-api-key-3.png)
+## Uploading the CSR File and Obtaining the API Key
+1. Login to `https://hexsafe.hextech.io`
+2. Click the dropdown at the top right corner next to your username.
+3. Go to Settings
+<p align="center">
+  <img src="../.gitbook/assets/gen-api-key-1.png" alt="Settings" width="500"/>
+</p>
+
+
+4. Go to API Key and press "Create API Key"
+<p align="center">
+  <img src="../.gitbook/assets/gen-api-key-2.png" alt="Create API Key" width="500"/>
+</p>
+
+
+
+5. Name your API key
+6. Copy and paste the content from "my_rsa.csr" to the text box
+7. Set the expiry date and press "Get API Key"
+<p align="center">
+  <img src="../.gitbook/assets/gen-api-key-3.png" alt="Get API Key" width="500"/>
+</p>
 
 
 
 
-# 1.3 How to generate Bearer Token
-- The bearer token is a JWT with the following format:
+
+# 1.3 Generating a Bearer TokenThe bearer token is a JWT with the following format
+
+The bearer token is a JWT with the following format:
 ```json
 {
   	"exp": 1694673536,
@@ -60,10 +75,12 @@ openssl req -key ./my_rsa.pem -subj "/C=HK/O=Hextrust/CN=testing.hextrust.com/em
 }
 ```
 
+
 | Key | Description |
 | --- | ----------- |
-| exp | Expiray time of the JWT, suggest to set it for 1 minute, just enough to call the API before expired |
-| api-key | The api key generated above |
-| uri | the path of the API |
-| nonce | a random number provided by user to prevent replay attack, only necessary for POST request |
-| digest  | a base64url string of concat(compact JSON body, nonce) SHA512 hash, to ensure the POST body cannot be tempered, only necessary for POST request |
+| exp | The expiry time of the JWT. It's recommended to set this to 1 minute, which should provide enough time to call the API before the token expires. |
+| api-key | The API key obtained from the previous step. |
+| uri | The path of the API. |
+| nonce | A random number provided by user to prevent replay attacks. This is only necessary for POST requests. |
+| digest | A Base64Url encoded string of the SHA512 hash of the concatenated compact JSON body and nonce. This ensures the POST body cannot be tampered with and is only necessary for POST requests. |
+
