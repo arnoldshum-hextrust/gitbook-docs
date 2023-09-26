@@ -4,7 +4,7 @@
 
 ## Resources
 
-* [API Key Management](<README (1).md>)
+* [API Key Management](resources/readme.md)
 * [Role Based API Control](resources/role-based-api-control.md)
 * [Sending Transactions](resources/sending-transactions.md)
 * [Rate Limits](resources/rate-limits/README.md)
