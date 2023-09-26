@@ -1,8 +1,8 @@
 # Table of contents
 
-* [Welcome](README.md)
+* [Welcome!](README.md)
 
-## Resources
+## 📘 Resources
 
 * [API Authentication](<README (1).md>)
 * [API Key Management](resources/readme.md)
