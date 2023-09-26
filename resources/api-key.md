@@ -37,13 +37,13 @@ openssl req -key ./my_rsa.pem -subj "/C=HK/O=Hextrust/CN=testing.hextrust.com/em
 - Login to `https://hexsafe.hextech.io`
 - Click the drop down at the top right corner next to the user name
 - Go to Settings
-![alt text](./gen-api-key-1.png)
+![alt text](../.gitbook/assets/gen-api-key-1.png)
 - Go to API Key and press "Create API Key"
-![alt text](./gen-api-key-2.png)
+![alt text](../.gitbook/assets/gen-api-key-2.png)
 - Name your API key
 - Copy and paste the content from "my_rsa.csr" to the text box
 - Set the expiry date and press "Get API Key"
-![alt text](./gen-api-key-3.png)
+![alt text](../.gitbook/assets/gen-api-key-3.png)
 
 
 
