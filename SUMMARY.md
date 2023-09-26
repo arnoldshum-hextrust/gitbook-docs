@@ -4,6 +4,7 @@
 
 ## Resources
 
+* [API Authentication](resources/api-authentication.md)
 * [API Key Management](resources/readme.md)
 * [Role Based API Control](resources/role-based-api-control.md)
 * [Sending Transactions](resources/sending-transactions.md)
