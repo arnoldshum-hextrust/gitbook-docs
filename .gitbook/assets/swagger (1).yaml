@@ -1,0 +1,678 @@
+basePath: /v1
+definitions:
+  Error:
+    properties:
+      code:
+        type: integer
+      message: {}
+    type: object
+  Asset:
+    properties:
+      available:
+        description: Funds available for transfer. Equals the blockchain balance minus
+          any locked amounts
+        type: string
+      frozen:
+        description: The cumulative frozen balance
+        type: string
+      id:
+        description: ID of the asset
+        type: string
+      lockedAmount:
+        description: Funds in outgoing transactions that are not yet published to
+          the network
+        type: string
+      pending:
+        description: The cumulative balance of all transactions pending to be cleared
+        type: string
+      total:
+        description: The total wallet balance. It is the balance as it appears on
+          the blockchain.
+        type: string
+    type: object
+  AssetAddress:
+    properties:
+      address:
+        description: Address for the deposit
+        type: string
+      assetId:
+        description: ID of the asset
+        type: string
+    type: object
+  Enterprise:
+    properties:
+      baseCurrency:
+        description: Base currency that the enterprise will use for various operations
+        type: string
+        x-order: "5"
+      createdAt:
+        description: Created time in RFC3339 format "2023-05-04T08:36:02.187254Z"
+        type: string
+        x-order: "6"
+      displayName:
+        description: Display name of the enterprise
+        type: string
+        x-order: "2"
+      entityStatus:
+        description: |-
+          Entity status
+
+          <ul>
+          <li><code>active</code> enterprise is active</li>
+          <li><code>pending</code> enterprise is pending in approval process</li>
+          <li><code>suspended</code> enterprise has been suspended, please contact custom support for details</li>
+          </ul>
+        type: string
+        x-order: "4"
+      id:
+        description: ID of the enterprise
+        type: string
+        x-order: "1"
+      legalName:
+        description: Legal name of the enterprise
+        type: string
+        x-order: "3"
+      updatedAt:
+        description: Last updated time is in RFC3339 format "2023-05-04T08:36:02.187254Z"
+        type: string
+        x-order: "7"
+    type: object
+  GetAggregatedAssetListRes:
+    properties:
+      assetList:
+        description: Aggregated asset balance list
+        items:
+          $ref: '#/definitions/Asset'
+        type: array
+        x-order: "1"
+      nextUrl:
+        description: Link to the next page
+        type: string
+        x-order: "105"
+      paging:
+        allOf:
+        - $ref: '#/definitions/PaginationReq'
+        description: Current page request
+        x-order: "100"
+      previousUrl:
+        description: Link to the previous page
+        type: string
+        x-order: "104"
+    type: object
+  GetAggregatedAssetRes:
+    properties:
+      available:
+        description: Funds available for transfer. Equals the blockchain balance minus
+          any locked amounts
+        type: string
+      frozen:
+        description: The cumulative frozen balance
+        type: string
+      id:
+        description: ID of the asset
+        type: string
+      lockedAmount:
+        description: Funds in outgoing transactions that are not yet published to
+          the network
+        type: string
+      pending:
+        description: The cumulative balance of all transactions pending to be cleared
+        type: string
+      total:
+        description: The total wallet balance. It is the balance as it appears on
+          the blockchain.
+        type: string
+    type: object
+  GetEnterpriseListRes:
+    properties:
+      enterpriseList:
+        items:
+          $ref: '#/definitions/Enterprise'
+        type: array
+    type: object
+  GetSafeAccountAssetRes:
+    properties:
+      available:
+        description: Funds available for transfer. Equals the blockchain balance minus
+          any locked amounts
+        type: string
+      frozen:
+        description: The cumulative frozen balance
+        type: string
+      id:
+        description: ID of the asset
+        type: string
+      lockedAmount:
+        description: Funds in outgoing transactions that are not yet published to
+          the network
+        type: string
+      pending:
+        description: The cumulative balance of all transactions pending to be cleared
+        type: string
+      total:
+        description: The total wallet balance. It is the balance as it appears on
+          the blockchain.
+        type: string
+    type: object
+  GetSafeAccountListRes:
+    properties:
+      nextUrl:
+        description: Link to the next page
+        type: string
+        x-order: "105"
+      paging:
+        allOf:
+        - $ref: '#/definitions/PaginationReq'
+        description: Current page request
+        x-order: "100"
+      previousUrl:
+        description: Link to the previous page
+        type: string
+        x-order: "104"
+      safeAccountList:
+        description: Safe account list
+        items:
+          $ref: '#/definitions/SafeAccount'
+        type: array
+        x-order: "1"
+    type: object
+  GetSafeAccountRes:
+    properties:
+      assetList:
+        description: Asset list of the safe account
+        items:
+          $ref: '#/definitions/Asset'
+        type: array
+      id:
+        description: ID of the safe account
+        type: string
+      name:
+        description: Name of the safe account
+        type: string
+    type: object
+  GetTransactionListRes:
+    properties:
+      nextUrl:
+        description: Link to the next page
+        type: string
+        x-order: "105"
+      paging:
+        allOf:
+        - $ref: '#/definitions/TransactionPaginationReq'
+        description: Current page request
+        x-order: "100"
+      previousUrl:
+        description: Link to the previous page
+        type: string
+        x-order: "104"
+      transactionList:
+        items:
+          $ref: '#/definitions/Transaction'
+        type: array
+    type: object
+  PaginationReq:
+    properties:
+      after:
+        description: Fetch after this resource ID
+        type: string
+        x-order: "102"
+      before:
+        description: Fetch before this resource ID
+        type: string
+        x-order: "101"
+    type: object
+  SafeAccount:
+    properties:
+      assetList:
+        description: Asset list of the safe account
+        items:
+          $ref: '#/definitions/Asset'
+        type: array
+      id:
+        description: ID of the safe account
+        type: string
+      name:
+        description: Name of the safe account
+        type: string
+    type: object
+  Transaction:
+    type: object
+  TransactionPaginationReq:
+    properties:
+      after:
+        description: Fetch after this timestamp
+        type: string
+        x-order: "102"
+      before:
+        description: Fetch before this timestamp
+        type: string
+        x-order: "101"
+    type: object
+  ValidatePostReq:
+    properties:
+      boolean:
+        type: boolean
+      char:
+        maxLength: 1
+        type: string
+      int64:
+        type: integer
+      string:
+        maxLength: 16
+        minLength: 5
+        type: string
+    type: object
+  ValidateRes:
+    properties:
+      message:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: developer@hextech.io
+    name: REST API developer
+  title: Hexsafe v2 REST API
+  version: "1.0"
+paths:
+  /assets:
+    get:
+      description: Gets the assets balance summary for all accounts or filtered accounts.
+      parameters:
+      - description: Account name prefix
+        in: query
+        name: accountNamePrefix
+        type: string
+      - description: Account name suffix
+        in: query
+        name: accountNameSuffix
+        type: string
+      - description: Fetch before this resource ID
+        in: query
+        name: before
+        type: string
+      - description: Fetch after this resource ID
+        in: query
+        name: after
+        type: string
+      - default: 200
+        description: 'Max number of asset in one response: default 200, max 500.'
+        in: query
+        maximum: 500
+        minimum: 1
+        name: limit
+        type: integer
+      - description: Order by field
+        in: query
+        name: orderBy
+        type: string
+      - default: DESC
+        description: 'Sort direction ascending (ASC) or descending (DESC), default:
+          DESC'
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Aggregated asset balance list
+          schema:
+            $ref: '#/definitions/GetAggregatedAssetListRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get aggregated asset balance for chosen accounts
+      tags:
+      - safeAccount
+  /assets/{assetId}:
+    get:
+      description: Gets the asset balance summary for an asset.
+      parameters:
+      - description: Asset ID
+        in: path
+        name: assetId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Aggregated asset balance
+          schema:
+            $ref: '#/definitions/GetAggregatedAssetRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get enterprise balance by asset
+      tags:
+      - safeAccount
+  /enterprises:
+    get:
+      description: Get a list of enterprises accessible by the api user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Enterprise list
+          schema:
+            $ref: '#/definitions/GetEnterpriseListRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get list of enterprises
+      tags:
+      - enterprise
+  /safe_accounts:
+    get:
+      description: Gets all safe accounts in an enterprise. This endpoint returns
+        a paginated result.
+      parameters:
+      - description: Enterprise ID
+        in: query
+        name: enterpriseId
+        type: string
+      - description: Fetch before this resource ID
+        in: query
+        name: before
+        type: string
+      - description: Fetch after this resource ID
+        in: query
+        name: after
+        type: string
+      - default: 200
+        description: 'Max number of safe account in one response: default 200, max
+          500.'
+        in: query
+        maximum: 500
+        minimum: 1
+        name: limit
+        type: integer
+      - description: Order by field
+        in: query
+        name: orderBy
+        type: string
+      - default: DESC
+        description: 'Sort direction ascending (ASC) or descending (DESC), default:
+          DESC'
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Safe account list
+          schema:
+            $ref: '#/definitions/GetSafeAccountListRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get list of safe accounts
+      tags:
+      - safeAccount
+  /safe_accounts/{safeAccountId}:
+    get:
+      description: Returns the requested safe account.
+      parameters:
+      - description: Safe account ID
+        in: path
+        name: safeAccountId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Safe account details
+          schema:
+            $ref: '#/definitions/GetSafeAccountRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get a safe account by ID
+      tags:
+      - safeAccount
+  /safe_accounts/{safeAccountId}/{assetId}:
+    get:
+      description: Returns the wallet balance for a specific asset of a safe account.
+      parameters:
+      - description: Safe account ID
+        in: path
+        name: safeAccountId
+        required: true
+        type: string
+      - description: Asset ID
+        in: path
+        name: assetId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Asset balance
+          schema:
+            $ref: '#/definitions/GetSafeAccountAssetRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get the asset balance for a safe account
+      tags:
+      - safeAccount
+  /safe_accounts/{safeAccountId}/{assetId}/addresses:
+    get:
+      description: Returns the wallet addresses for a specific asset of a safe account.
+      parameters:
+      - description: Safe account ID
+        in: path
+        name: safeAccountId
+        required: true
+        type: string
+      - description: Asset ID
+        in: path
+        name: assetId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Asset addresses
+          schema:
+            items:
+              $ref: '#/definitions/AssetAddress'
+            type: array
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get asset addresses
+      tags:
+      - safeAccount
+  /transactions:
+    get:
+      description: Lists the transaction history for your Enterprise.
+      parameters:
+      - description: Fetch before this timestamp
+        in: query
+        name: before
+        type: string
+      - description: Fetch after this timestamp
+        in: query
+        name: after
+        type: string
+      - default: 200
+        description: 'Max number of transaction in one response: default 200, max
+          500.'
+        in: query
+        maximum: 500
+        minimum: 1
+        name: limit
+        type: integer
+      - description: Order by field
+        in: query
+        name: orderBy
+        type: string
+      - default: DESC
+        description: 'Sort direction ascending (ASC) or descending (DESC), default:
+          DESC'
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sort
+        type: string
+      - description: Enterprise ID
+        in: query
+        name: enterpriseId
+        type: string
+      - description: Safe account ID
+        in: query
+        name: safeAccountId
+        type: string
+      - description: Status
+        in: query
+        name: status
+        type: string
+      - description: Transaction hash
+        in: query
+        name: txHash
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Transaction list
+          schema:
+            $ref: '#/definitions/GetTransactionListRes'
+        "400":
+          description: Error object
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Get list of transaction history
+      tags:
+      - transaction
+  /validate:
+    get:
+      description: Validate your API call to hexsafe is implemented correctly.
+      parameters:
+      - description: min=5,max=16
+        in: query
+        maxLength: 16
+        minLength: 5
+        name: string
+        type: string
+      - description: max=1
+        in: query
+        maxLength: 1
+        name: char
+        type: string
+      - description: true/false
+        in: query
+        name: boolean
+        type: boolean
+      - description: int64
+        in: query
+        name: int64
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response
+          schema:
+            $ref: '#/definitions/ValidateRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Validate
+      tags:
+      - misc
+    post:
+      description: Validate your API call to hexsafe is implemented correctly.
+      parameters:
+      - description: Request Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ValidatePostReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response
+          schema:
+            $ref: '#/definitions/ValidateRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - APIKey: []
+      - Bearer: []
+      summary: Validate
+      tags:
+      - misc
+securityDefinitions:
+  APIKey:
+    description: API key that is generated via hexsafe frontend.
+    in: header
+    name: X-API-KEY
+    type: apiKey
+  Bearer:
+    description: Bearer token
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
+tags:
+- description: Enterprise API
+  name: enterprise
+- description: Safe Account API
+  name: safeAccount
+- description: Transaction API
+  name: transaction
+- description: misc API
+  name: misc

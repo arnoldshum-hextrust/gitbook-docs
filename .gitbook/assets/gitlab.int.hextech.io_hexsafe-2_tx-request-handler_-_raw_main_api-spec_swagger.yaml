@@ -1,0 +1,838 @@
+openapi: 3.0.2
+info:
+  title: tx-request-handler
+  description: Swagger documentation for transaction request handler JSON-RPC APIs
+  version: 0.0.1
+servers:
+  - url: 'http://tx-request-handler'
+paths:
+  /api/:
+    post:
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: X-Request-Id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/hs2_initiateTransaction'
+                - $ref: '#/components/schemas/hs2_getTransactionByTraceId'
+                - $ref: '#/components/schemas/hs2_cancelTransaction'
+            examples:
+              hs2_initiateTransaction_withdraw:
+                $ref: '#/components/examples/hs2_initiateTransaction_withdraw'
+              hs2_initiateTransaction_generic:
+                $ref: '#/components/examples/hs2_initiateTransaction_generic'
+              hs2_initiateTransaction_signMessage:
+                $ref: '#/components/examples/hs2_initiateTransaction_signMessage'
+              hs2_initiateTransaction_signTypedData:
+                $ref: '#/components/examples/hs2_initiateTransaction_signTypedData'
+              hs2_getTransactionByTraceId:
+                $ref: '#/components/examples/hs2_getTransactionByTraceId'
+              hs2_cancelTransaction:
+                $ref: '#/components/examples/hs2_cancelTransaction'
+      responses:
+        '200':
+          description: response object
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/hs2_initiateTransactionResponse'
+                  - $ref: '#/components/schemas/hs2_getTransactionByTraceIdResponse'
+                  - $ref: '#/components/schemas/hs2_cancelTransactionResponse'
+              examples:
+                hs2_initiateTransactionResponse_withdraw:
+                  $ref: '#/components/examples/hs2_initiateTransactionResponse_withdraw'
+                hs2_initiateTransactionResponse_generic:
+                  $ref: '#/components/examples/hs2_initiateTransactionResponse_generic'
+                hs2_initiateTransactionResponse_signMessage:
+                  $ref: '#/components/examples/hs2_initiateTransactionResponse_signMessage'
+                hs2_initiateTransactionResponse_signTypedData:
+                  $ref: '#/components/examples/hs2_initiateTransactionResponse_signTypedData'
+                hs2_getTransactionByTraceIdResponse:
+                  $ref: '#/components/examples/hs2_getTransactionByTraceIdResponse'
+                hs2_cancelTransactionResponse:
+                  $ref: '#/components/examples/hs2_cancelTransactionResponse'
+        '400':
+          description: Error
+        '401':
+          description: Unauthorized access
+        '500':
+          description: Internal Server Error
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    hs2_initiateTransaction:
+      allOf:
+        - $ref: '#/components/schemas/JsonRpcBase'
+        - type: object
+          required:
+            - method
+            - params
+          properties:
+            method:
+              type: string
+              default: hs2_initiateTransaction
+            params:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/WithdrawTxRequest'
+                - $ref: '#/components/schemas/GenericTxRequest'
+                - $ref: '#/components/schemas/SignMessageTxRequest'
+                - $ref: '#/components/schemas/SignTypedDataTxRequest'
+    hs2_initiateTransactionResponse:
+      allOf:
+        - $ref: '#/components/schemas/JsonRpcBase'
+        - type: object
+          properties:
+            error:
+              type: object
+              properties:
+                code:
+                  type: integer
+                message:
+                  type: string
+                data:
+                  type: string
+        - type: object
+          required:
+            - result
+          properties:
+            result:
+              type: object
+              required:
+                - requestNo
+                - traceId
+                - createdAt
+              properties:
+                requestNo:
+                  type: string
+                traceId:
+                  type: string
+                createdAt:
+                  type: string
+    
+    hs2_getTransactionByTraceId:
+      allOf:
+        - $ref: '#/components/schemas/JsonRpcBase'
+        - type: object
+          required:
+            - method
+            - params
+          properties:
+            method:
+              type: string
+              default: hs2_getTransactionByTraceId
+            params:
+              type: array
+              items:
+                type: string
+    hs2_getTransactionByTraceIdResponse:
+      allOf:
+        - $ref: '#/components/schemas/JsonRpcBase'
+        - type: object
+          properties:
+            error:
+              type: object
+              properties:
+                code:
+                  type: integer
+                message:
+                  type: string
+                data:
+                  type: string
+        - type: object
+          required:
+            - result
+          properties:
+            result:
+              type: object
+              allOf:
+                - $ref: '#/components/schemas/TxRequestResult'
+    
+    hs2_cancelTransaction:
+      allOf:
+        - $ref: '#/components/schemas/JsonRpcBase'
+        - type: object
+          required:
+            - method
+            - params
+          properties:
+            method:
+              type: string
+              default: hs2_cancelTransaction
+            params:
+              type: array
+              items:
+                type: string
+    hs2_cancelTransactionResponse:
+      allOf:
+        - $ref: '#/components/schemas/JsonRpcBase'
+        - type: object
+          properties:
+            error:
+              type: object
+              properties:
+                code:
+                  type: integer
+                message:
+                  type: string
+                data:
+                  type: string
+        - type: object
+          required:
+            - result
+          properties:
+            result:
+              type: object
+              properties:
+                message:
+                  type: string
+                cancelled:
+                  type: boolean
+    
+    JsonRpcBase:
+      type: object
+      required:
+        - jsonrpc
+      properties:
+        jsonrpc:
+          type: string
+          default: '2.0'
+    WithdrawTxRequest:
+      allOf:
+        - type: object
+          required:
+            - enterpriseId
+            - safeAccountId
+            - walletType
+            - source
+            - action
+            - chainId
+            - from
+            - to
+            - amount
+            - fee
+          properties:
+            enterpriseId:
+              type: string
+            safeAccountId:
+              type: string
+            walletType:
+              type: string
+              enum:
+                - warm
+                - hot
+                - cold
+            source:
+              type: string
+              enum:
+                - frontend
+                - mmi
+                - hexadmin
+            action:
+              type: string
+              enum:
+                - frontend
+                  - [ withdraw, trust-set, trust-set-removal, create-offer, accept-offer, cancel-offer ]
+                - mmi
+                  - [ withdraw, contract-interaction ]
+                - hexadmin
+                  - [ withdraw, contract-interaction, stake, unstake, restake, reward ]
+            chainId:
+              type: string
+            from:
+              type: string
+            to:
+              type: integer
+            note:
+              type: string
+            amount:
+              type: object
+              required:
+                - assetKey
+                - assetTicker
+                - valueDecimal
+                - valueAtomic
+                - baseCurrency
+                - fxRate
+              properties:
+                assetKey:
+                  type: string
+                assetTicker:
+                  type: string
+                nftId:
+                  type: string
+                valueDecimal:
+                  type: string
+                valueAtomic:
+                  type: string
+                baseCurrency:
+                  type: string
+                fxRate:
+                  type: string
+            fee:
+              type: object
+              required:
+                - assetKey
+                - assetTicker
+                - valueDecimal
+                - valueAtomic
+                - baseCurrency
+                - fxRate
+              properties:
+                assetKey:
+                  type: string
+                assetTicker:
+                  type: string
+                valueDecimal:
+                  type: string
+                valueAtomic:
+                  type: string
+                baseCurrency:
+                  type: string
+                fxRate:
+                  type: string
+            chainSpecific:
+              type: object
+    GenericTxRequest:
+      allOf:
+        - type: object
+          required:
+            - enterpriseId
+            - safeAccountId
+            - walletType
+            - source
+            - action
+            - chainId
+            - from
+            - rawData
+          properties:
+            enterpriseId:
+              type: string
+            safeAccountId:
+              type: string
+            walletType:
+              type: string
+              enum:
+                - warm
+                - hot
+                - cold
+            source:
+              type: string
+              enum:
+                - hexadmin
+            action:
+              type: string
+              enum:
+                - hexadmin
+                  - [ generic ]
+            chainId:
+              type: string
+            note:
+              type: string
+            tag:
+              type: string
+            from:
+              type: string
+            rawData:
+              type: object
+    SignMessageTxRequest:
+      allOf:
+        - type: object
+          required:
+            - enterpriseId
+            - safeAccountId
+            - walletType
+            - source
+            - action
+            - chainId
+            - from
+            - message
+            - originUrl
+          properties:
+            enterpriseId:
+              type: string
+            safeAccountId:
+              type: string
+            walletType:
+              type: string
+              enum:
+                - warm
+                - hot
+                - cold
+            source:
+              type: string
+              enum:
+                - mmi
+            action:
+              type: string
+              enum:
+                - mmi
+                  - [ sign-message ]
+            chainId:
+              type: string
+            note:
+              type: string
+            from:
+              type: string
+            message:
+              type: string
+            originUrl:
+              type: string
+    SignTypedDataTxRequest:
+      allOf:
+        - type: object
+          required:
+            - enterpriseId
+            - safeAccountId
+            - walletType
+            - source
+            - action
+            - chainId
+            - from
+            - typedData
+            - originUrl
+          properties:
+            enterpriseId:
+              type: string
+            safeAccountId:
+              type: string
+            walletType:
+              type: string
+              enum:
+                - warm
+                - hot
+                - cold
+            source:
+              type: string
+              enum:
+                - mmi
+            action:
+              type: string
+              enum:
+                - mmi
+                  - [ sign-typed-data ]
+            chainId:
+              type: string
+            note:
+              type: string
+            from:
+              type: string
+            typedData:
+              type: object
+            originUrl:
+              type: string
+    TxRequestResult:
+      allOf:
+        - type: object
+          required:
+            - requestNo
+            - traceId
+            - clientRequestId
+            - userId
+            - enterpriseId
+            - safeAccountId
+            - walletType
+            - source
+            - action
+            - chainId
+            - txStatus
+            - tx_sub_statuses
+            - txData
+            - initiatedBy
+            - initiatedAt
+          properties:
+            requestNo:
+              type: string
+            traceId:
+              type: string
+            clientRequestId:
+              type: string
+            userId:
+              type: string
+            enterpriseId:
+              type: string
+            safeAccountId:
+              type: string
+            walletType:
+              type: string
+              enum:
+                - warm
+                - hot
+                - cold
+            source:
+              type: string
+              enum:
+                - frontend
+                - mmi
+                - hexadmin
+            action:
+              type: string
+              enum:
+                - withdraw
+                - trust-set
+                - contract-interaction
+            chainId:
+              type: string
+            note:
+              type: string
+            tag:
+              type: string
+            parentTraceId:
+              type: string
+            txStatus:
+              type: string
+            txSubStatuses:
+              type: array
+              items:
+                type: object
+                required:
+                  - subStatus
+                  - createdAt
+                properties:
+                  subStatus:
+                    type: string
+                  reason:
+                    type: string
+                  createdAt:
+                    type: string
+            txData:
+              type: object
+              properties:
+                from:
+                  type: string
+                to:
+                  type: string
+                amount:
+                  type: object
+                  required:
+                    - assetKey
+                    - assetTicker
+                    - valueDecimal
+                    - valueAtomic
+                    - baseCurrency
+                    - fxRate
+                  properties:
+                    assetKey:
+                      type: string
+                    assetTicker:
+                      type: string
+                    nftId:
+                      type: string
+                    valueDecimal:
+                      type: string
+                    valueAtomic:
+                      type: string
+                    baseCurrency:
+                      type: string
+                    fxRate:
+                      type: string
+                fee:
+                  type: object
+                  required:
+                    - assetKey
+                    - assetTicker
+                    - valueDecimal
+                    - valueAtomic
+                    - baseCurrency
+                    - fxRate
+                  properties:
+                    assetKey:
+                      type: string
+                    assetTicker:
+                      type: string
+                    valueDecimal:
+                      type: string
+                    valueAtomic:
+                      type: string
+                    baseCurrency:
+                      type: string
+                    fxRate:
+                      type: string
+                chainSpecific:
+                  type: object
+            txHash:
+              type: string
+            nonce:
+              type: string
+            bcData:
+              type: object
+              required:
+                - raw
+              properties:
+                raw:
+                  type: object
+                signedTx:
+                  type: object
+            initiatedBy:
+              type: string
+            initiatedAt:
+              type: string
+  
+  examples:
+    hs2_initiateTransaction_withdraw:
+      value:
+        jsonrpc: '2.0'
+        method: hs2_initiateTransaction
+        params:
+          enterpriseId: 2bcfb0c4-e40c-11ed-a514-3fc97a34eb94
+          safeAccountId: 3a765632-e40c-11ed-b30e-abf0f01303a8
+          walletType: warm
+          source: frontend
+          action: withdraw
+          chainId: '5'
+          from: '0xdA25e56897773d78b8e765E472fF41b96b35871C'
+          to: '0xEdCF46bE4b97ea986b8523E0238234d0879C7166'
+          note: Withdrawal transaction
+          amount:
+            assetKey: 5_ETH
+            assetTicker: ETH
+            nftId: '3995'
+            valueDecimal: '0.0005'
+            valueAtomic: '500000000000000'
+            baseCurrency: USD
+            fxRate: '1862.94'
+          fee:
+            assetKey: 5_ETH
+            assetTicker: ETH
+            valueDecimal: '0.000075600006804'
+            valueAtomic: '75600006804000'
+            baseCurrency: USD
+            fxRate: '1862.94'
+          chainSpecific:
+            type: '0x2'
+            gasLimit: '0x5208'
+            maxFeePerGas: '0x59682f0e'
+            maxPriorityFeePerGas: '0x59682f0e'
+            data: '0x1'
+    hs2_initiateTransactionResponse_withdraw:
+      value:
+        jsonrpc: '2.0'
+        result:
+          requestNo: '1'
+          traceId: 314f8f9d-ef62-4b4e-b5a6-b914f077e3cb
+          createdAt: '2023-08-01T03:32:42.443838799Z'
+    
+    hs2_initiateTransaction_generic:
+      value:
+        jsonrpc: '2.0'
+        method: hs2_initiateTransaction
+        params:
+          enterpriseId: 2bcfb0c4-e40c-11ed-a514-3fc97a34eb94
+          safeAccountId: 3a765632-e40c-11ed-b30e-abf0f01303a8
+          walletType: warm
+          source: hexadmin
+          action: generic
+          chainId: '5'
+          note: Generic transaction
+          tag: staking
+          from: '0xdA25e56897773d78b8e765E472fF41b96b35871C'
+          rawData:
+            to: '0xEdCF46bE4b97ea986b8523E0238234d0879C7166'
+            data: '0xa0712d680000000000000000000000000000000000000000000000003782dace9d900000'
+            from: '0xdA25e56897773d78b8e765E472fF41b96b35871C'
+            type: '2'
+            nonce: '32'
+            value: '0x0'
+            chainId: '5'
+            gasLimit: '0xdbbb'
+            maxFeePerGas: '0x7cc5ea7f'
+            maxPriorityFeePerGas: '0x59682f00'
+    hs2_initiateTransactionResponse_generic:
+      value:
+        jsonrpc: '2.0'
+        result:
+          requestNo: '2'
+          traceId: d79464a8-cc8c-4218-8cb6-6bf7d38847cc
+          createdAt: '2023-08-01T05:48:53.745343296Z'
+    
+    hs2_initiateTransaction_signMessage:
+      value:
+        jsonrpc: '2.0'
+        method: hs2_initiateTransaction
+        params:
+          enterpriseId: 2bcfb0c4-e40c-11ed-a514-3fc97a34eb94
+          safeAccountId: 3a765632-e40c-11ed-b30e-abf0f01303a8
+          walletType: warm
+          source: mmi
+          action: sign-message
+          chainId: '5'
+          note: Sign message transaction
+          from: '0xdA25e56897773d78b8e765E472fF41b96b35871C'
+          message: Some message
+          originUrl: 'https://opensea.io'
+    hs2_initiateTransactionResponse_signMessage:
+      value:
+        jsonrpc: '2.0'
+        result:
+          requestNo: '3'
+          traceId: beee52f1-b9e0-4fd3-8f63-7af3eb46fc14
+          createdAt: '2023-08-01T04:41:27.497566921Z'
+    
+    hs2_initiateTransaction_signTypedData:
+      value:
+        jsonrpc: '2.0'
+        method: hs2_initiateTransaction
+        params:
+          enterpriseId: 2bcfb0c4-e40c-11ed-a514-3fc97a34eb94
+          safeAccountId: 3a765632-e40c-11ed-b30e-abf0f01303a8
+          walletType: warm
+          source: mmi
+          action: sign-typed-data
+          chainId: '5'
+          note: Sign typed data transaction
+          from: '0xdA25e56897773d78b8e765E472fF41b96b35871C'
+          typedData:
+            - '0x420deef23b4f595d49ac298e0a4c96576330ce4b'
+            - types:
+                EIP712Domain:
+                  - name: name
+                    type: string
+                  - name: version
+                    type: string
+                  - name: chainId
+                    type: string
+                  - name: verifyingContract
+                    type: address
+                  - name: salt
+                    type: bytes32
+                ERC20ForwardRequest:
+                  - name: from
+                    type: address
+                  - name: to
+                    type: address
+                  - name: token
+                    type: address
+                  - name: txGas
+                    type: uint256
+                  - name: tokenGasPrice
+                    type: uint256
+                  - name: batchId
+                    type: uint256
+                  - name: batchNonce
+                    type: uint256
+                  - name: deadline
+                    type: uint256
+                  - name: data
+                    type: bytes
+                domain:
+                  name: Biconomy Forwarder
+                  version: '1'
+                  chainId: '5'
+                  verifyingContract: '0x9399BB24DBB5C4b782C70c2969F58716Ebbd6a3b'
+                  salt: '0x0000000000000000000000000000000000000000000000000000000000013881'
+                  primaryType: ERC20ForwardRequest
+                  message:
+                    from: '0x64294A144ebA470764FF7dFC17369e4B05fCb005'
+                    to: '0x97de685DaeC47a139c9078Cf99657cE688672EBe'
+                    token: '0x276e11D3F2e221A02C44E5919410B1C635e536bc'
+                    txGas: 51930
+                    tokenGasPrice: '0'
+                    batchId: '0,'
+                    batchNonce: '0,'
+                    deadline: '1661256232,'
+                    data: '0x23b872dd00000000000000000000000064294a144eba470764ff7dfc17369e4b05fcb00500000000000000000000000097de685daec47a139c9078cf99657ce688672ebe000000000000000000000000000000000000000000000000000009184e72a000'
+            - v4
+          originUrl: 'https://opensea.io'
+    hs2_initiateTransactionResponse_signTypedData:
+      value:
+        jsonrpc: '2.0'
+        result:
+          requestNo: '4'
+          traceId: 01057f26-e962-4cce-8a2a-3fce71d2e51c
+          createdAt: '2023-08-01T05:28:02.822113342Z'
+    
+    hs2_getTransactionByTraceId:
+      value:
+        jsonrpc: '2.0'
+        method: hs2_getTransactionByTraceId
+        params:
+          - 314f8f9d-ef62-4b4e-b5a6-b914f077e3cb
+    hs2_getTransactionByTraceIdResponse:
+      value:
+        jsonrpc: '2.0'
+        result:
+          requestNo: '1'
+          traceId: 314f8f9d-ef62-4b4e-b5a6-b914f077e3cb
+          clientRequestId: 23da9c7a-8dce-4dd2-a516-e49547b60638
+          userId: 94f210ae-e599-4c31-9645-bd80989eebcc
+          enterpriseId: 2bcfb0c4-e40c-11ed-a514-3fc97a34eb95
+          safeAccountId: 3a765632-e40c-11ed-b30e-abf0f01303a8
+          walletType: hot
+          source: frontend
+          action: withdraw
+          chainId: '5'
+          note: Withdrawal transaction
+          tag: staking
+          parentTraceId: 74bdfe5c-f6ca-40c1-beb6-45c245e54a45
+          txStatus: Validating
+          txSubStatuses:
+            - subStatus: Approved
+              reason: Some Reason
+              createdAt: '2023-07-25T13:43:51.702977764Z'
+          txData:
+            from: '0xdA25e56897773d78b8e765E472fF41b96b35871C'
+            to: '0xEdCF46bE4b97ea986b8523E0238234d0879C7166'
+            amount:
+              assetKey: 5_ETH
+              assetTicker: ETH
+              nftId: '3995'
+              valueDecimal: '0.0005'
+              valueAtomic: '500000000000000'
+              baseCurrency: USD
+              fxRate: '1862.94'
+              usdRate: '1862.94'
+            fee:
+              assetKey: 5_ETH
+              assetTicker: ETH
+              valueAtomic: '0.000075600006804'
+              baseCurrency: USD
+              valueDecimal: '75600006804000'
+              fxRate: '2495.91'
+            chainSpecific:
+              type: '0x2'
+              gasLimit: '0x5208'
+              maxFeePerGas: '0x59682f0e'
+              maxPriorityFeePerGas: '0x59682f0e'
+              data: '0x1'
+          txHash: '0x772724393ee634086adcaeb2a4ef917b0b28b056aa77c42982bed16b5f47527a'
+          nonce: '1'
+          bcData:
+            raw:
+              to: '0xEdCF46bE4b97ea986b8523E0238234d0879C7166'
+              data: '0x1'
+              from: '0xdA25e56897773d78b8e765E472fF41b96b35871C'
+              type: '2'
+              value: '0x11bccfea6b8bd0000'
+              chainId: '5'
+              gasLimit: '0x5208'
+              maxFeePerGas: '0x59682f0e'
+              maxPriorityFeePerGas: '0x59682f0e'
+            signedTx: '0xf86b0185028fa6ae0082627094edcf46be4b97ea986b8523e0238234d0879c7166860144f633e5008081e6a0e8ee903189f475a294fc3f2ac81568b3de6c37c18951c1dd0576d4887d54a847a02d1ec6e6bce96a282c0bdeced75001f5856481870bc9ea56a3175ff2a88d8f04'
+          initiatedBy: Rock
+          initiatedAt: '2023-08-01T03:32:42.443Z'
+
+    hs2_cancelTransaction:
+      value:
+        jsonrpc: '2.0'
+        method: hs2_cancelTransaction
+        params:
+          - ff9066d3-7b53-4725-bcfb-b05644ac8c3e
+    hs2_cancelTransactionResponse:
+      value:
+        jsonrpc: '2.0'
+        result:
+          message: The transaction is successfully cancelled
+          cancelled: true
